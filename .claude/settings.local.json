@@ -4,7 +4,10 @@
       "Bash(npm run build:*)",
       "Bash(npx next build:*)",
       "Bash(npm install:*)",
-      "WebFetch(domain:fidcs.com.br)"
+      "WebFetch(domain:fidcs.com.br)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(gh repo edit:*)"
     ]
   }
 }
