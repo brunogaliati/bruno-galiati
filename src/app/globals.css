@@ -4,11 +4,11 @@
   --color-primary: #0f172a;
   --color-secondary: #6366f1;
   --color-accent: #10b981;
-  --color-surface: #f8fafc;
-  --color-card: #ffffff;
-  --color-text: #1e293b;
-  --color-text-light: #64748b;
-  --color-border: #e2e8f0;
+  --color-surface: #0a0f1e;
+  --color-card: #0d1326;
+  --color-text: #e2e8f0;
+  --color-text-light: #94a3b8;
+  --color-border: #1a2240;
   --color-indigo-50: #eef2ff;
   --color-indigo-100: #e0e7ff;
   --color-indigo-300: #a5b4fc;
@@ -44,19 +44,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glass morphism utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
+/* Glass morphism — dark navbar */
 .glass-dark {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(10, 15, 30, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Gradient text utility */
@@ -67,9 +60,51 @@ body {
   background-clip: text;
 }
 
-/* Hero gradient */
-.hero-gradient {
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+/* Section gradient divider — indigo → emerald */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.4) 30%,
+    rgba(16, 185, 129, 0.4) 70%,
+    transparent 100%
+  );
+}
+
+/* Card hover glow — Linear.app style */
+.card-glow {
+  transition: all 0.3s ease;
+}
+.card-glow:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.1),
+    0 8px 40px -12px rgba(99, 102, 241, 0.15);
+}
+
+.card-glow-emerald {
+  transition: all 0.3s ease;
+}
+.card-glow-emerald:hover {
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.1),
+    0 8px 40px -12px rgba(16, 185, 129, 0.15);
+}
+
+/* Marquee ticker */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
 }
 
 /* Scrollbar styling */
@@ -82,10 +117,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-slate-300);
+  background: var(--color-slate-700);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-slate-400);
+  background: var(--color-slate-600);
 }

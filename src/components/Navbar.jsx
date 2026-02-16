@@ -19,7 +19,7 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: showNav && !isHidden ? 0 : -100 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-0 left-0 right-0 z-50 glass-dark shadow-lg"
+        className="fixed top-0 left-0 right-0 z-50 glass-dark shadow-sm"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -37,7 +37,7 @@ export default function Navbar() {
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className="text-sm text-slate-300 hover:text-white transition-colors font-body"
+                  className="text-sm text-slate-400 hover:text-white transition-colors font-body"
                 >
                   {item.label}
                 </a>
@@ -46,7 +46,7 @@ export default function Navbar() {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-300 hover:text-white transition-all hover:scale-110"
+                className="text-slate-400 hover:text-white transition-all hover:scale-110"
               >
                 <Github size={20} />
               </a>
@@ -72,7 +72,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-50 bg-primary flex flex-col items-center justify-center gap-8"
+            className="fixed inset-0 z-50 bg-[#0a0f1e] flex flex-col items-center justify-center gap-8"
           >
             <button
               onClick={() => setIsOpen(false)}
@@ -100,7 +100,7 @@ export default function Navbar() {
               href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-300 hover:text-white transition-colors mt-4"
+              className="text-slate-400 hover:text-white transition-colors mt-4"
             >
               <Github size={28} />
             </a>

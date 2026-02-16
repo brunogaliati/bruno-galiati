@@ -17,7 +17,7 @@ export default function MetricCounter({
 
   return (
     <div ref={ref} className="text-center">
-      <div className="font-mono text-3xl md:text-4xl font-bold text-secondary">
+      <div className="font-mono text-3xl md:text-4xl font-bold gradient-text inline-block">
         {prefix}
         {inView ? (
           isYear ? (
@@ -30,7 +30,7 @@ export default function MetricCounter({
         )}
         {suffix}
       </div>
-      <div className="text-sm text-text-light uppercase tracking-wider font-mono mt-1">
+      <div className="text-sm text-slate-500 uppercase tracking-wider font-mono mt-1">
         {label}
       </div>
     </div>

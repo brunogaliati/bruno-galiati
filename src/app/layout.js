@@ -1,23 +1,24 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Bruno Galiati | Analista Financeiro & Builder",
+  title: "Bruno Galiati | Product Builder — Dados & Mercado Financeiro",
   description:
-    "Construo sistemas que transformam dados financeiros em decisões. 6 anos na interseção entre wealth management, crédito estruturado e ciência de dados.",
+    "Construo produtos com dados. Background em economia, 6 anos em wealth management, um SaaS em produção.",
   keywords: [
     "Bruno Galiati",
-    "analista financeiro",
-    "desenvolvedor",
+    "product builder",
     "FIDCs",
     "wealth management",
     "Python",
     "React",
+    "dados",
+    "SaaS",
   ],
   authors: [{ name: "Bruno Galiati" }],
   openGraph: {
-    title: "Bruno Galiati | Analista Financeiro & Builder",
+    title: "Bruno Galiati | Product Builder — Dados & Mercado Financeiro",
     description:
-      "Construo sistemas que transformam dados financeiros em decisões.",
+      "Construo produtos com dados. Background em economia, 6 anos em wealth management, um SaaS em produção.",
     type: "website",
   },
 };

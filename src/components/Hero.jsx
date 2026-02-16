@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import {
   MapPin,
   Briefcase,
@@ -9,151 +8,399 @@ import {
   GraduationCap,
   ChevronDown,
   Github,
+  Activity,
+  ArrowRight,
+  BarChart3,
+  Database,
+  ExternalLink,
+  Zap,
 } from "lucide-react";
-import { personalInfo, badges } from "@/data/portfolio";
+import { personalInfo, badges, mainProject } from "@/data/portfolio";
 
-const iconMap = {
-  MapPin,
-  Briefcase,
-  Code,
-  GraduationCap,
-};
+const iconMap = { MapPin, Briefcase, Code, GraduationCap };
 
-export default function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
+const heroNavLinks = [
+  { label: "Trajetória", href: "#sobre" },
+  { label: "Projetos", href: "#projetos" },
+  { label: "Experiência", href: "#experiencia" },
+  { label: "Stack", href: "#skills" },
+  { label: "Contato", href: "#contato" },
+];
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+const tickerItems = [
+  "Product Thinking",
+  "Python",
+  "Wealth Management",
+  "FIDCs",
+  "React",
+  "Data Pipelines",
+  "PostgreSQL",
+  "Crédito Estruturado",
+  "SaaS",
+  "Supabase",
+  "Due Diligence",
+  "Automação",
+  "Tailwind",
+  "CLOs",
+  "MVP",
+  "Modelagem Quantitativa",
+];
+
+/* Sparkline — small inline SVG chart */
+function Sparkline({ data, color = "#6366f1", width = 80, height = 24 }) {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const step = width / (data.length - 1);
+
+  const points = data
+    .map((v, i) => `${i * step},${height - ((v - min) / range) * height}`)
+    .join(" ");
 
   return (
-    <section
-      ref={ref}
-      className="relative min-h-screen flex items-center overflow-hidden"
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      className="inline-block"
     >
-      {/* Parallax background */}
-      <motion.div
-        style={{ y: backgroundY }}
-        className="absolute inset-0 hero-gradient"
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.7"
       />
+      {/* Glow dot on last point */}
+      <circle
+        cx={width}
+        cy={height - ((data[data.length - 1] - min) / range) * height}
+        r="2"
+        fill={color}
+      />
+    </svg>
+  );
+}
 
-      {/* Decorative grid overlay */}
-      <div className="absolute inset-0 opacity-5">
+/* Marquee ticker strip */
+function Ticker() {
+  const doubled = [...tickerItems, ...tickerItems];
+  return (
+    <div className="w-full overflow-hidden border-t border-white/[0.06] bg-white/[0.02]">
+      <div className="marquee-track flex items-center gap-6 py-3 whitespace-nowrap w-max">
+        {doubled.map((item, i) => (
+          <span key={i} className="flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-secondary/60" />
+            <span className="text-xs font-mono text-slate-500 tracking-wide">
+              {item}
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BentoGrid() {
+  return (
+    <div className="grid grid-cols-2 gap-2.5">
+      {/* Product card — FIDCs.com.br */}
+      <motion.a
+        href={mainProject.siteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="col-span-2 group rounded-xl bg-white/[0.04] border border-white/[0.08] p-4 hover:bg-white/[0.07] hover:border-secondary/30 transition-all"
+      >
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <span className="text-[10px] font-mono text-accent uppercase tracking-widest">
+              Live · Produção
+            </span>
+          </div>
+          <ExternalLink
+            size={12}
+            className="text-slate-600 group-hover:text-secondary transition-colors"
+          />
+        </div>
+        <h3 className="font-heading text-base font-bold text-white">
+          FIDCs.com.br
+        </h3>
+        <p className="text-slate-500 text-xs mt-0.5 mb-3">
+          Plataforma de dados · fundos de crédito
+        </p>
+        <div className="flex items-end justify-between">
+          <div className="flex items-center gap-5">
+            {mainProject.metrics.slice(0, 3).map((m) => (
+              <div key={m.label}>
+                <div className="font-mono font-bold text-white text-sm">
+                  {m.prefix || ""}
+                  {m.value}
+                </div>
+                <div className="text-[9px] text-slate-600 font-mono uppercase tracking-wider">
+                  {m.label}
+                </div>
+              </div>
+            ))}
+          </div>
+          <Sparkline
+            data={[20, 35, 28, 45, 52, 48, 65, 72, 68, 85, 91, 100]}
+            color="#10b981"
+            width={72}
+            height={28}
+          />
+        </div>
+      </motion.a>
+
+      {/* Stack card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.75, duration: 0.5 }}
+        className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-3.5"
+      >
+        <div className="flex items-center gap-2 mb-2.5">
+          <Code size={12} className="text-secondary" />
+          <span className="text-[10px] font-mono text-secondary uppercase tracking-widest">
+            Stack
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {["Python", "React", "PostgreSQL", "Supabase", "Tailwind"].map(
+            (tech) => (
+              <span
+                key={tech}
+                className="px-2 py-0.5 text-[11px] font-mono rounded bg-white/[0.06] text-slate-400 border border-white/[0.06]"
+              >
+                {tech}
+              </span>
+            )
+          )}
+        </div>
+        <div className="mt-2.5 flex items-center justify-between">
+          <Sparkline
+            data={[10, 15, 22, 30, 28, 35, 42, 50, 55, 60]}
+            color="#6366f1"
+            width={60}
+            height={18}
+          />
+          <span className="text-[9px] font-mono text-slate-600">6y exp</span>
+        </div>
+      </motion.div>
+
+      {/* Domain card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.5 }}
+        className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-3.5"
+      >
+        <div className="flex items-center gap-2 mb-2.5">
+          <Database size={12} className="text-indigo-400" />
+          <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">
+            Domínio
+          </span>
+        </div>
+        <div className="space-y-1.5">
+          {["Wealth Mgmt", "Crédito Estruturado", "FIDCs & CLOs"].map(
+            (item) => (
+              <div
+                key={item}
+                className="text-[11px] text-slate-400 font-mono flex items-center gap-1.5"
+              >
+                <div className="w-1 h-1 rounded-full bg-indigo-400/50" />
+                {item}
+              </div>
+            )
+          )}
+        </div>
+      </motion.div>
+
+      {/* Status card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0, duration: 0.5 }}
+        className="col-span-2 rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-2.5 flex items-center justify-between"
+      >
+        <div className="flex items-center gap-3">
+          <Zap size={12} className="text-yellow-500" />
+          <span className="text-[10px] font-mono text-slate-500 tracking-wide">
+            1 SaaS em produção · +100 cadastrados · ~490 ativos/mês
+          </span>
+        </div>
+        <Sparkline
+          data={[30, 35, 42, 40, 55, 60, 58, 72, 80, 85, 91]}
+          color="#eab308"
+          width={50}
+          height={14}
+        />
+      </motion.div>
+    </div>
+  );
+}
+
+export default function Hero() {
+  return (
+    <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0f1e]">
+      {/* Terminal-style grid overlay */}
+      <div className="absolute inset-0 opacity-[0.07]">
         <div
           className="w-full h-full"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+              "linear-gradient(rgba(99,102,241,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.3) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
           }}
         />
       </div>
 
-      {/* Floating accent elements */}
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-secondary/10 blur-3xl" />
-      <div className="absolute bottom-1/3 left-1/5 w-48 h-48 rounded-full bg-accent/10 blur-3xl" />
+      {/* Subtle gradient accents */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-secondary/[0.06] blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent/[0.04] blur-[100px]" />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
-        <div className="max-w-3xl">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight"
-          >
-            {personalInfo.name}
-          </motion.h1>
+      {/* Main content */}
+      <div className="relative z-10 flex-1 flex items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
+          {/* Left: Text content */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-2 mb-6"
+            >
+              <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-accent text-xs font-mono font-semibold tracking-wider uppercase">
+                Disponível para oportunidades
+              </span>
+            </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="font-heading text-xl md:text-2xl text-indigo-300 mt-4"
-          >
-            {personalInfo.title}
-          </motion.h2>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="font-heading text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[0.95] tracking-tight"
+            >
+              {personalInfo.name}
+            </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-slate-300 text-lg md:text-xl mt-6 max-w-2xl leading-relaxed"
-          >
-            {personalInfo.description}
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-4"
+            >
+              <span className="font-heading text-xl md:text-2xl font-semibold gradient-text">
+                {personalInfo.tagline}
+              </span>
+            </motion.p>
 
-          {/* Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="flex flex-wrap gap-3 mt-8"
-          >
-            {badges.map((badge) => {
-              const Icon = iconMap[badge.icon];
-              return (
-                <span
-                  key={badge.label}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-slate-200 text-sm font-body border border-white/10"
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-slate-400 text-base md:text-lg mt-3 max-w-xl leading-relaxed"
+            >
+              {personalInfo.description}
+            </motion.p>
+
+            {/* Badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap gap-2 mt-6"
+            >
+              {badges.map((badge) => {
+                const Icon = iconMap[badge.icon];
+                return (
+                  <span
+                    key={badge.label}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.05] text-slate-400 text-sm font-mono border border-white/[0.08] hover:bg-white/[0.08] hover:text-slate-300 transition-colors"
+                  >
+                    {Icon && <Icon size={13} className="text-secondary/70" />}
+                    {badge.label}
+                  </span>
+                );
+              })}
+            </motion.div>
+
+            {/* Navigation CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap gap-2.5 mt-8"
+            >
+              {heroNavLinks.map((link, i) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-heading font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-secondary ${
+                    i === 0
+                      ? "bg-secondary text-white hover:bg-indigo-500 hover:shadow-lg hover:shadow-secondary/25"
+                      : "border border-white/[0.1] text-slate-400 hover:bg-white/[0.06] hover:text-white"
+                  }`}
                 >
-                  {Icon && <Icon size={16} className="text-indigo-300" />}
-                  {badge.label}
-                </span>
-              );
-            })}
-          </motion.div>
+                  {link.label}
+                  <ArrowRight size={14} className="opacity-50" />
+                </a>
+              ))}
+            </motion.div>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 mt-10"
-          >
-            <a
-              href="#projetos"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-secondary text-white font-heading font-semibold text-base hover:bg-indigo-600 transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-primary"
+            {/* GitHub + Email */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex items-center gap-4 mt-6"
             >
-              Ver Projetos
-            </a>
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl border border-white/30 text-white font-heading font-semibold text-base hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-            >
-              <Github size={18} />
-              GitHub
-            </a>
-          </motion.div>
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-500 hover:text-white text-sm font-mono transition-colors"
+              >
+                <Github size={15} />
+                GitHub
+              </a>
+              <span className="text-slate-700">|</span>
+              <span className="text-slate-600 text-xs font-mono">
+                {personalInfo.email}
+              </span>
+            </motion.div>
+          </div>
 
-          {/* Email */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.75 }}
-            className="text-slate-400 text-sm font-mono mt-6"
-          >
-            {personalInfo.email}
-          </motion.p>
+          {/* Right: Bento Grid */}
+          <div className="hidden lg:block">
+            <BentoGrid />
+          </div>
         </div>
+      </div>
+
+      {/* Ticker strip at bottom of hero */}
+      <div className="relative z-10">
+        <Ticker />
       </div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-14 left-1/2 -translate-x-1/2 z-10"
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ChevronDown size={28} className="text-slate-400" />
+          <ChevronDown size={24} className="text-slate-600" />
         </motion.div>
       </motion.div>
     </section>

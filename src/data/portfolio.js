@@ -1,8 +1,9 @@
 export const personalInfo = {
   name: "Bruno Galiati",
-  title: "Analista Financeiro & Builder",
+  title: "Product Builder",
+  tagline: "Construo produtos com dados.",
   description:
-    "Construo sistemas que transformam dados financeiros em decisões. 6 anos na interseção entre wealth management, crédito estruturado e ciência de dados.",
+    "Background em economia, 6 anos em wealth management, um SaaS em produção.",
   email: "brunop.galiati@gmail.com",
   linkedin: "https://linkedin.com/in/brunogaliati",
   github: "https://github.com/brunogaliati",
@@ -30,7 +31,7 @@ export const aboutText = {
   paragraphs: [
     "Comecei minha carreira em 2018 construindo dashboards e pipelines de dados para times de wealth management. Era o analista que automatizava processos manuais, organizava bases fragmentadas da CVM e criava ferramentas que outros usavam para alocar milhões.",
     "Ao longo de 6 anos, evolui de estagiário a analista especializado na interseção entre investimentos e ciência de dados. Desenvolvi modelos quantitativos para crédito estruturado, apliquei machine learning para due diligence de fundos, e construí sistemas de análise em tempo real que rodam até hoje.",
-    'Em 2025, lancei o FIDCs.com.br — uma plataforma que consolida e disponibiliza dados públicos sobre fundos de crédito no Brasil. É um projeto pequeno (91 usuários, 25 acessos diários), mas representa uma virada: de construir ferramentas internas para construir produtos que qualquer pessoa pode usar.',
+    'Em 2025, lancei o FIDCs.com.br — uma plataforma que consolida e disponibiliza dados públicos sobre fundos de crédito no Brasil. Com +100 usuários cadastrados e quase 500 usuários ativos por mês, representa uma virada: de construir ferramentas internas para construir produtos que qualquer pessoa pode usar.',
   ],
   strengths: [
     "Transformar dados brutos em informação acionável",
@@ -54,7 +55,7 @@ export const aboutText = {
 };
 
 export const mainProject = {
-  badge: "EM USO · 91 USUÁRIOS",
+  badge: "EM USO · +100 USUÁRIOS",
   name: "FIDCs.com.br",
   tag: "Side Project · SaaS · Dados Públicos",
   title: "A primeira plataforma gratuita focada em FIDCs",
@@ -63,8 +64,8 @@ export const mainProject = {
   solution:
     "Plataforma que automatiza coleta, tratamento e disponibilização de dados de +300 fundos. Dashboards interativos mostram performance, inadimplência, subordinação e evolução de carteira — tudo atualizado semanalmente.",
   metrics: [
-    { value: 91, label: "Usuários" },
-    { value: 25, label: "Acessos/dia", suffix: "/dia" },
+    { value: 117, label: "Cadastrados", prefix: "+" },
+    { value: 491, label: "Usuários/mês" },
     { value: 300, label: "Fundos", prefix: "+" },
     { value: 2018, label: "Desde", isYear: true },
   ],
@@ -78,7 +79,6 @@ export const mainProject = {
     "Hub de notícias e conteúdo educacional",
   ],
   siteUrl: "https://fidcs.com.br",
-  githubUrl: "https://github.com/brunogaliati",
 };
 
 export const secondaryProjects = [
@@ -144,7 +144,7 @@ export const experience = [
       "Dashboards de performance, subordinação e inadimplência",
       "Automação de coleta CVM",
       "Arquitetura Supabase + React + Tailwind",
-      "91 usuários ativos, 25 acessos diários",
+      "+100 usuários cadastrados, ~490 usuários ativos/mês",
     ],
     skills: [],
   },
@@ -196,7 +196,32 @@ export const experience = [
 
 export const skillCategories = [
   {
-    title: "Mercado Financeiro",
+    title: "Produto",
+    icon: "Lightbulb",
+    color: "secondary",
+    items: [
+      "Product Thinking",
+      "Data Storytelling",
+      "SaaS",
+      "Automação de Processos",
+      "Documentação Técnica",
+      "MVP / Prototipação",
+    ],
+  },
+  {
+    title: "Tech Stack",
+    icon: "Code",
+    color: "accent",
+    items: [
+      ["Python", "PostgreSQL"],
+      ["React", "Tailwind"],
+      ["Supabase", "Pandas"],
+      ["Streamlit", "Dash"],
+      ["Git/GitHub", "APIs"],
+    ],
+  },
+  {
+    title: "Domínio",
     icon: "TrendingUp",
     color: "secondary",
     items: [
@@ -205,36 +230,7 @@ export const skillCategories = [
       "FIDCs & CLOs",
       "Análise de Risco",
       "Due Diligence",
-      "Asset Allocation",
       "Modelagem Quantitativa",
-    ],
-  },
-  {
-    title: "Dados & Tecnologia",
-    icon: "Code",
-    color: "accent",
-    items: [
-      ["Python", "PostgreSQL"],
-      ["Pandas", "React"],
-      ["Scikit-learn", "Tailwind"],
-      ["Streamlit", "Supabase"],
-      ["Dash", "Git/GitHub"],
-      ["NumPy", "APIs"],
-      ["NLP/LLM", "Web Scraping"],
-    ],
-  },
-  {
-    title: "Produto & Análise",
-    icon: "Lightbulb",
-    color: "secondary",
-    items: [
-      "Machine Learning",
-      "Modelagem Quantitativa",
-      "Data Pipelines",
-      "Product Thinking",
-      "Data Storytelling",
-      "Automação de Processos",
-      "Documentação Técnica",
     ],
   },
 ];
