@@ -4,7 +4,8 @@ import { MapPin, Building2 } from "lucide-react";
 import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
-import { experience } from "@/data/portfolio";
+import { experience, ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
 
 function ExperienceCard({ item, color = "indigo" }) {
   const isEmerald = color === "emerald";
@@ -83,8 +84,12 @@ function ExperienceCard({ item, color = "indigo" }) {
 }
 
 export default function Experience() {
-  const concurrent = experience.slice(0, 2);
-  const rest = experience.slice(2);
+  const { lang } = useLanguage();
+  const t = ui[lang];
+  const exp = experience[lang];
+
+  const concurrent = exp.slice(0, 2);
+  const rest = exp.slice(2);
 
   return (
     <SectionWrapper id="experiencia" className="relative overflow-hidden">
@@ -96,8 +101,8 @@ export default function Experience() {
 
       <div className="relative z-10">
         <SectionHeading
-          label="EXPERIÊNCIA PROFISSIONAL"
-          title="Trajetória"
+          label={t.professionalExperience}
+          title={t.trajectory}
           gradient
         />
 
@@ -117,7 +122,7 @@ export default function Experience() {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                   <span className="text-xs font-mono text-accent font-semibold uppercase tracking-wider">
-                    Atual — em paralelo
+                    {t.currentParallel}
                   </span>
                 </div>
                 <div className="flex-1 h-px bg-gradient-to-r from-accent/20 to-transparent" />

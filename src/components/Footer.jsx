@@ -1,4 +1,12 @@
+"use client";
+
+import { ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
+
 export default function Footer() {
+  const { lang } = useLanguage();
+  const t = ui[lang];
+
   return (
     <footer className="relative bg-[#060a15] py-10 px-4">
       {/* Top divider */}
@@ -6,7 +14,7 @@ export default function Footer() {
 
       <div className="max-w-6xl mx-auto text-center">
         <p className="text-slate-600 text-sm font-mono">
-          &copy; {new Date().getFullYear()} Bruno Galiati &middot; Feito com
+          &copy; {new Date().getFullYear()} Bruno Galiati &middot; {t.builtWith}{" "}
           Next.js + Tailwind
         </p>
       </div>

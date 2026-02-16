@@ -4,7 +4,8 @@ import { Mail, Linkedin, Github, Globe } from "lucide-react";
 import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
-import { contactLinks } from "@/data/portfolio";
+import { contactLinks, ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = {
   Mail,
@@ -21,6 +22,10 @@ const cardAccents = [
 ];
 
 export default function Contact() {
+  const { lang } = useLanguage();
+  const t = ui[lang];
+  const links = contactLinks[lang];
+
   return (
     <SectionWrapper id="contato" className="relative overflow-hidden">
       {/* Top divider */}
@@ -34,19 +39,16 @@ export default function Contact() {
 
       <div className="relative z-10 text-center max-w-2xl mx-auto">
         <AnimatedElement>
-          <SectionHeading label="CONTATO" title="Vamos conversar" gradient />
+          <SectionHeading label={t.contact} title={t.letsTalk} gradient />
 
           <p className="text-slate-400 text-base md:text-lg -mt-6 mb-10 leading-relaxed">
-            Estou buscando oportunidades em produto, dados ou tech onde eu
-            possa construir coisas que resolvem problemas reais. Se você valoriza
-            quem entende o problema e sabe construir a solução, adoraria
-            conversar.
+            {t.contactDescription}
           </p>
         </AnimatedElement>
 
         <AnimatedElement delay={0.2}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {contactLinks.map((link, i) => {
+            {links.map((link, i) => {
               const Icon = iconMap[link.icon];
               const accent = cardAccents[i] || cardAccents[0];
               const glowClass =

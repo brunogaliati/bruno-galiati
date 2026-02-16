@@ -15,36 +15,10 @@ import {
   ExternalLink,
   Zap,
 } from "lucide-react";
-import { personalInfo, badges, mainProject } from "@/data/portfolio";
+import { personalInfo, badges, mainProject, tickerItems as tickerData, ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = { MapPin, Briefcase, Code, GraduationCap };
-
-const heroNavLinks = [
-  { label: "Trajetória", href: "#sobre" },
-  { label: "Projetos", href: "#projetos" },
-  { label: "Experiência", href: "#experiencia" },
-  { label: "Stack", href: "#skills" },
-  { label: "Contato", href: "#contato" },
-];
-
-const tickerItems = [
-  "Product Thinking",
-  "Python",
-  "Wealth Management",
-  "FIDCs",
-  "React",
-  "Data Pipelines",
-  "PostgreSQL",
-  "Crédito Estruturado",
-  "SaaS",
-  "Supabase",
-  "Due Diligence",
-  "Automação",
-  "Tailwind",
-  "CLOs",
-  "MVP",
-  "Modelagem Quantitativa",
-];
 
 /* Sparkline — small inline SVG chart */
 function Sparkline({ data, color = "#6366f1", width = 80, height = 24 }) {
@@ -85,8 +59,9 @@ function Sparkline({ data, color = "#6366f1", width = 80, height = 24 }) {
 }
 
 /* Marquee ticker strip */
-function Ticker() {
-  const doubled = [...tickerItems, ...tickerItems];
+function Ticker({ lang }) {
+  const items = tickerData[lang];
+  const doubled = [...items, ...items];
   return (
     <div className="w-full overflow-hidden border-t border-white/[0.06] bg-white/[0.02]">
       <div className="marquee-track flex items-center gap-6 py-3 whitespace-nowrap w-max">
@@ -103,12 +78,15 @@ function Ticker() {
   );
 }
 
-function BentoGrid() {
+function BentoGrid({ lang }) {
+  const t = ui[lang];
+  const project = mainProject[lang];
+
   return (
     <div className="grid grid-cols-2 gap-2.5">
       {/* Product card — FIDCs.com.br */}
       <motion.a
-        href={mainProject.siteUrl}
+        href={project.siteUrl}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, y: 20 }}
@@ -120,7 +98,7 @@ function BentoGrid() {
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-[10px] font-mono text-accent uppercase tracking-widest">
-              Live · Produção
+              {t.liveProduction}
             </span>
           </div>
           <ExternalLink
@@ -132,11 +110,11 @@ function BentoGrid() {
           FIDCs.com.br
         </h3>
         <p className="text-slate-500 text-xs mt-0.5 mb-3">
-          Plataforma de dados · fundos de crédito
+          {t.dataplatform}
         </p>
         <div className="flex items-end justify-between">
           <div className="flex items-center gap-5">
-            {mainProject.metrics.slice(0, 3).map((m) => (
+            {project.metrics.slice(0, 3).map((m) => (
               <div key={m.label}>
                 <div className="font-mono font-bold text-white text-sm">
                   {m.prefix || ""}
@@ -203,11 +181,11 @@ function BentoGrid() {
         <div className="flex items-center gap-2 mb-2.5">
           <Database size={12} className="text-indigo-400" />
           <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">
-            Domínio
+            {t.domain}
           </span>
         </div>
         <div className="space-y-1.5">
-          {["Wealth Mgmt", "Crédito Estruturado", "FIDCs & CLOs"].map(
+          {[t.bentoWealthMgmt, t.bentoProductMgmt, t.bentoStructuredCredit, t.bentoFIDCs].map(
             (item) => (
               <div
                 key={item}
@@ -231,7 +209,7 @@ function BentoGrid() {
         <div className="flex items-center gap-3">
           <Zap size={12} className="text-yellow-500" />
           <span className="text-[10px] font-mono text-slate-500 tracking-wide">
-            1 SaaS em produção · +100 cadastrados · ~490 ativos/mês
+            {t.statusLine}
           </span>
         </div>
         <Sparkline
@@ -246,6 +224,19 @@ function BentoGrid() {
 }
 
 export default function Hero() {
+  const { lang } = useLanguage();
+  const t = ui[lang];
+  const info = personalInfo[lang];
+  const badgeList = badges[lang];
+
+  const heroNavLinks = [
+    { label: t.heroAbout, href: "#sobre" },
+    { label: t.heroProjects, href: "#projetos" },
+    { label: t.heroExperience, href: "#experiencia" },
+    { label: t.heroStack, href: "#skills" },
+    { label: t.heroContact, href: "#contato" },
+  ];
+
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0f1e]">
       {/* Terminal-style grid overlay */}
@@ -277,7 +268,7 @@ export default function Hero() {
             >
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               <span className="text-accent text-xs font-mono font-semibold tracking-wider uppercase">
-                Disponível para oportunidades
+                {t.availableForOpportunities}
               </span>
             </motion.div>
 
@@ -287,7 +278,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-heading text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[0.95] tracking-tight"
             >
-              {personalInfo.name}
+              {info.name}
             </motion.h1>
 
             <motion.p
@@ -297,7 +288,7 @@ export default function Hero() {
               className="mt-4"
             >
               <span className="font-heading text-xl md:text-2xl font-semibold gradient-text">
-                {personalInfo.tagline}
+                {info.tagline}
               </span>
             </motion.p>
 
@@ -307,7 +298,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-slate-400 text-base md:text-lg mt-3 max-w-xl leading-relaxed"
             >
-              {personalInfo.description}
+              {info.description}
             </motion.p>
 
             {/* Badges */}
@@ -317,7 +308,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-2 mt-6"
             >
-              {badges.map((badge) => {
+              {badgeList.map((badge) => {
                 const Icon = iconMap[badge.icon];
                 return (
                   <span
@@ -362,7 +353,7 @@ export default function Hero() {
               className="flex items-center gap-4 mt-6"
             >
               <a
-                href={personalInfo.github}
+                href={info.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-slate-500 hover:text-white text-sm font-mono transition-colors"
@@ -372,21 +363,21 @@ export default function Hero() {
               </a>
               <span className="text-slate-700">|</span>
               <span className="text-slate-600 text-xs font-mono">
-                {personalInfo.email}
+                {info.email}
               </span>
             </motion.div>
           </div>
 
           {/* Right: Bento Grid */}
           <div className="hidden lg:block">
-            <BentoGrid />
+            <BentoGrid lang={lang} />
           </div>
         </div>
       </div>
 
       {/* Ticker strip at bottom of hero */}
       <div className="relative z-10">
-        <Ticker />
+        <Ticker lang={lang} />
       </div>
 
       {/* Scroll indicator */}

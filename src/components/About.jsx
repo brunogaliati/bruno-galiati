@@ -5,9 +5,14 @@ import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
 import Card from "./ui/Card";
-import { aboutText } from "@/data/portfolio";
+import { aboutText, ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function About() {
+  const { lang } = useLanguage();
+  const t = ui[lang];
+  const about = aboutText[lang];
+
   return (
     <SectionWrapper id="sobre" className="relative overflow-hidden">
       {/* Subtle background mesh — emerald tint */}
@@ -17,12 +22,12 @@ export default function About() {
         {/* Left column */}
         <div className="lg:col-span-3">
           <SectionHeading
-            label={aboutText.label}
-            title={aboutText.title}
+            label={about.label}
+            title={about.title}
             gradient
           />
 
-          {aboutText.paragraphs.map((paragraph, i) => (
+          {about.paragraphs.map((paragraph, i) => (
             <AnimatedElement key={i} delay={i * 0.15}>
               <p className="text-slate-400 leading-relaxed mb-6 text-base md:text-lg">
                 {paragraph}
@@ -42,12 +47,12 @@ export default function About() {
                   </span>
                 </div>
                 <h3 className="font-heading text-lg font-semibold text-white">
-                  O que eu faço bem
+                  {t.whatIDoWell}
                 </h3>
               </div>
 
               <ul className="space-y-3 mb-6">
-                {aboutText.strengths.map((strength, i) => (
+                {about.strengths.map((strength, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle
                       size={18}
@@ -62,10 +67,10 @@ export default function About() {
 
               <div>
                 <span className="text-xs font-mono font-semibold tracking-[0.2em] uppercase text-slate-500">
-                  STACK ATUAL
+                  {t.currentStack}
                 </span>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {aboutText.stack.map((tech) => (
+                  {about.stack.map((tech) => (
                     <span
                       key={tech}
                       className="px-3 py-1 rounded-full bg-accent/[0.08] text-accent/90 text-xs font-mono border border-accent/[0.08] transition-colors hover:bg-accent/[0.14]"

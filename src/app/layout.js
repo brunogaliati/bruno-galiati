@@ -1,31 +1,32 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Bruno Galiati | Product Builder — Dados & Mercado Financeiro",
+  title: "Bruno Galiati | Product Builder — Data & Finance",
   description:
-    "Construo produtos com dados. Background em economia, 6 anos em wealth management, um SaaS em produção.",
+    "I build products with data. Background in economics, 6 years in wealth management, a SaaS in production.",
   keywords: [
     "Bruno Galiati",
     "product builder",
+    "product manager",
     "FIDCs",
     "wealth management",
     "Python",
     "React",
-    "dados",
+    "data",
     "SaaS",
   ],
   authors: [{ name: "Bruno Galiati" }],
   openGraph: {
-    title: "Bruno Galiati | Product Builder — Dados & Mercado Financeiro",
+    title: "Bruno Galiati | Product Builder — Data & Finance",
     description:
-      "Construo produtos com dados. Background em economia, 6 anos em wealth management, um SaaS em produção.",
+      "I build products with data. Background in economics, 6 years in wealth management, a SaaS in production.",
     type: "website",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

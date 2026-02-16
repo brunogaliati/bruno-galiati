@@ -5,7 +5,8 @@ import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
 import Card from "./ui/Card";
-import { skillCategories } from "@/data/portfolio";
+import { skillCategories, ui } from "@/data/portfolio";
+import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = {
   TrendingUp,
@@ -36,6 +37,10 @@ const cardStyles = [
 ];
 
 export default function Skills() {
+  const { lang } = useLanguage();
+  const t = ui[lang];
+  const categories = skillCategories[lang];
+
   return (
     <SectionWrapper id="skills" className="relative overflow-hidden">
       {/* Top divider */}
@@ -45,10 +50,10 @@ export default function Skills() {
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-accent/[0.03] blur-[150px] pointer-events-none" />
 
       <div className="relative z-10">
-        <SectionHeading label="COMPETÊNCIAS" title="Stack & Skills" />
+        <SectionHeading label={t.competencies} title={t.stackAndSkills} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {skillCategories.map((category, i) => {
+          {categories.map((category, i) => {
             const Icon = iconMap[category.icon];
             const style = cardStyles[i] || cardStyles[0];
 
