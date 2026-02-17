@@ -5,6 +5,8 @@ import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
 import Card from "./ui/Card";
+import OceanParticles from "./ui/OceanParticles";
+import ZoneDivider from "./ui/ZoneDivider";
 import { skillCategories, ui } from "@/data/portfolio";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -16,23 +18,25 @@ const iconMap = {
 
 const cardStyles = [
   {
-    icon: "text-secondary",
-    bg: "bg-secondary/10",
-    dot: "bg-secondary",
-    glow: "indigo",
+    icon: "text-zone-hadal-vent",
+    bg: "bg-zone-hadal-vent/10",
+    dot: "bg-zone-hadal-vent",
+    glow: "vent",
+    tag: "bg-zone-hadal-vent/[0.06] text-zone-hadal-vent/80 border-zone-hadal-vent/[0.08]",
   },
   {
-    icon: "text-accent",
-    bg: "bg-accent/10",
-    dot: "bg-accent",
-    glow: "emerald",
-    tag: "bg-accent/[0.06] text-accent/80 border-accent/[0.08]",
+    icon: "text-zone-hadal-vent",
+    bg: "bg-zone-hadal-glow/10",
+    dot: "bg-zone-hadal-glow",
+    glow: "vent",
+    tag: "bg-zone-hadal-vent/[0.06] text-zone-hadal-vent/80 border-zone-hadal-vent/[0.08]",
   },
   {
-    icon: "text-secondary",
-    bg: "bg-secondary/10",
-    dot: "bg-secondary",
-    glow: "indigo",
+    icon: "text-zone-hadal-vent",
+    bg: "bg-zone-hadal-vent/10",
+    dot: "bg-zone-hadal-vent",
+    glow: "vent",
+    tag: "bg-zone-hadal-vent/[0.06] text-zone-hadal-vent/80 border-zone-hadal-vent/[0.08]",
   },
 ];
 
@@ -42,12 +46,25 @@ export default function Skills() {
   const categories = skillCategories[lang];
 
   return (
-    <SectionWrapper id="skills" className="relative overflow-hidden">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 section-divider" />
+    <SectionWrapper id="skills" zone="hadal" className="overflow-hidden">
+      {/* Ocean particles — hadal embers */}
+      <OceanParticles zone="hadal" />
 
-      {/* Background mesh */}
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-accent/[0.03] blur-[150px] pointer-events-none" />
+      {/* Volcanic vent glows */}
+      <div
+        className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(249,115,22,0.04) 0%, transparent 70%)",
+          animation: "vent-glow 4s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute bottom-0 right-1/3 w-[300px] h-[300px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(239,68,68,0.03) 0%, transparent 70%)",
+          animation: "vent-glow 4s ease-in-out 2s infinite",
+        }}
+      />
 
       <div className="relative z-10">
         <SectionHeading label={t.competencies} title={t.stackAndSkills} />
@@ -108,6 +125,9 @@ export default function Skills() {
           })}
         </div>
       </div>
+
+      {/* Gradient fade divider to trench */}
+      <ZoneDivider variant="fade" toColor="#000308" />
     </SectionWrapper>
   );
 }

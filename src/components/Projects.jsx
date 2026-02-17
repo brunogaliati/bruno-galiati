@@ -13,6 +13,8 @@ import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
 import Card from "./ui/Card";
 import MetricCounter from "./ui/MetricCounter";
+import OceanParticles from "./ui/OceanParticles";
+import ZoneDivider from "./ui/ZoneDivider";
 import { mainProject, secondaryProjects, ui } from "@/data/portfolio";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -25,12 +27,12 @@ export default function Projects() {
   const secondary = secondaryProjects[lang];
 
   return (
-    <SectionWrapper id="projetos" className="relative overflow-hidden">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 section-divider" />
+    <SectionWrapper id="projetos" zone="midnight" className="overflow-hidden">
+      {/* Ocean particles — midnight bioluminescence */}
+      <OceanParticles zone="midnight" />
 
-      {/* Background mesh — indigo tint offset right */}
-      <div className="absolute top-1/4 -right-40 w-[700px] h-[700px] rounded-full bg-secondary/[0.03] blur-[160px] pointer-events-none" />
+      {/* Background mesh — deep navy */}
+      <div className="absolute top-1/4 -right-40 w-[700px] h-[700px] rounded-full bg-zone-midnight/[0.04] blur-[160px] pointer-events-none" />
 
       <div className="relative z-10">
         <SectionHeading label={t.projects} title={t.whatIBuild} />
@@ -39,11 +41,21 @@ export default function Projects() {
           {/* Main project — 65% */}
           <div className="lg:col-span-3">
             <AnimatedElement>
-              <Card className="overflow-hidden" hover={false} glow="emerald">
+              <Card className="overflow-hidden relative" hover={false} glow="bio">
+                {/* Anglerfish glow on main card */}
+                <div
+                  className="absolute top-4 right-4 w-3 h-3 rounded-full"
+                  style={{
+                    background: "rgba(52, 211, 153, 0.6)",
+                    boxShadow: "0 0 15px rgba(52, 211, 153, 0.5)",
+                    animation: "angler-glow 3s ease-in-out infinite",
+                  }}
+                />
+
                 {/* Badge */}
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-mono font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zone-midnight-bio/10 text-zone-midnight-bio text-xs font-mono font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zone-midnight-bio animate-pulse" />
                     {project.badge}
                   </span>
                 </div>
@@ -57,7 +69,7 @@ export default function Projects() {
                 </p>
 
                 {/* Screenshot */}
-                <div className="w-full rounded-xl border border-white/[0.08] overflow-hidden mb-6 hover:border-accent/20 transition-colors">
+                <div className="w-full rounded-xl border border-white/[0.08] overflow-hidden mb-6 hover:border-zone-midnight-bio/20 transition-colors">
                   <img
                     src="https://fidcs.com.br/social-card.png"
                     alt="FIDCs.com.br — Data platform for credit funds"
@@ -81,7 +93,7 @@ export default function Projects() {
                     </p>
                   </div>
                   <div className="rounded-xl bg-white/[0.02] border border-white/[0.05] p-4">
-                    <span className="text-xs font-mono font-semibold tracking-[0.2em] uppercase text-accent/80">
+                    <span className="text-xs font-mono font-semibold tracking-[0.2em] uppercase text-zone-midnight-bio/80">
                       {t.theSolution}
                     </span>
                     <p className="text-slate-400 text-sm mt-2 leading-relaxed">
@@ -131,7 +143,7 @@ export default function Projects() {
                           key={i}
                           className="flex items-start gap-2 text-sm text-slate-400"
                         >
-                          <span className="text-accent mt-0.5">•</span>
+                          <span className="text-zone-midnight-bio mt-0.5">•</span>
                           {feature}
                         </li>
                       ))}
@@ -144,7 +156,7 @@ export default function Projects() {
                   href={project.siteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-accent text-white font-heading font-semibold text-sm hover:bg-emerald-600 transition-all hover:shadow-lg hover:shadow-accent/20 focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-zone-midnight-bio text-white font-heading font-semibold text-sm hover:bg-emerald-500 transition-all hover:shadow-lg hover:shadow-zone-midnight-bio/20 focus:outline-none focus:ring-2 focus:ring-zone-midnight-bio"
                 >
                   <ExternalLink size={16} />
                   {t.visitSite}
@@ -157,15 +169,12 @@ export default function Projects() {
           <div className="lg:col-span-2 flex flex-col gap-4">
             {secondary.map((proj, i) => {
               const Icon = projectIcons[i];
-              const isEmerald = i % 2 === 0;
-              const iconColor = isEmerald ? "text-accent" : "text-secondary";
-              const iconBg = isEmerald ? "bg-accent/10" : "bg-secondary/10";
               return (
                 <AnimatedElement key={i} delay={i * 0.1} direction="right">
-                  <Card glow={isEmerald ? "emerald" : "indigo"}>
+                  <Card glow="bio">
                     <div className="flex items-start gap-3 mb-3">
-                      <div className={`w-9 h-9 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
-                        <Icon size={18} className={iconColor} />
+                      <div className="w-9 h-9 rounded-lg bg-zone-midnight-bio/10 flex items-center justify-center shrink-0">
+                        <Icon size={18} className="text-zone-midnight-bio" />
                       </div>
                       <div>
                         <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider bg-white/[0.05] text-slate-500 mb-1">
@@ -196,6 +205,9 @@ export default function Projects() {
           </div>
         </div>
       </div>
+
+      {/* Wave divider to abyssal */}
+      <ZoneDivider variant="wave3" fromColor="#051628" toColor="#040f1e" />
     </SectionWrapper>
   );
 }

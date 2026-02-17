@@ -7,22 +7,29 @@ export default function SectionWrapper({
   id,
   children,
   className = "",
+  zone = "",
 }) {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.05,
   });
 
+  const zoneClass = zone ? `zone-${zone}` : "";
+
   return (
-    <motion.section
+    <section
       id={id}
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`py-20 px-4 sm:px-6 lg:px-8 ${className}`}
+      className={`relative py-20 px-4 sm:px-6 lg:px-8 ${zoneClass} ${className}`}
     >
-      <div className="max-w-6xl mx-auto">{children}</div>
-    </motion.section>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-6xl mx-auto"
+      >
+        {children}
+      </motion.div>
+    </section>
   );
 }

@@ -4,19 +4,30 @@ import { MapPin, Building2 } from "lucide-react";
 import SectionWrapper from "./ui/SectionWrapper";
 import SectionHeading from "./ui/SectionHeading";
 import AnimatedElement from "./ui/AnimatedElement";
+import OceanParticles from "./ui/OceanParticles";
+import ZoneDivider from "./ui/ZoneDivider";
 import { experience, ui } from "@/data/portfolio";
 import { useLanguage } from "@/context/LanguageContext";
 
-function ExperienceCard({ item, color = "indigo" }) {
-  const isEmerald = color === "emerald";
-  const bulletColor = isEmerald ? "text-accent" : "text-secondary";
-  const glowStyle = isEmerald
-    ? "hover:border-accent/15 hover:shadow-[0_0_30px_-10px_rgba(16,185,129,0.1)]"
-    : "hover:border-secondary/15 hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.1)]";
+function ExperienceCard({ item, color = "cyan" }) {
+  const colorMap = {
+    cyan: {
+      bullet: "text-secondary",
+      glow: "hover:border-secondary/15 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)]",
+      tag: "bg-secondary/[0.06] text-secondary/80 border-secondary/[0.08]",
+    },
+    purple: {
+      bullet: "text-zone-abyssal-bio",
+      glow: "hover:border-zone-abyssal-bio/15 hover:shadow-[0_0_30px_-10px_rgba(167,139,250,0.1)]",
+      tag: "bg-zone-abyssal-bio/[0.06] text-zone-abyssal-bio/80 border-zone-abyssal-bio/[0.08]",
+    },
+  };
+
+  const style = colorMap[color] || colorMap.cyan;
 
   return (
     <div
-      className={`bg-white/[0.02] rounded-xl p-5 border border-white/[0.06] transition-all duration-300 ${glowStyle}`}
+      className={`bg-white/[0.02] rounded-xl p-5 border border-white/[0.06] transition-all duration-300 ${style.glow}`}
     >
       <h3 className="font-heading text-lg font-bold text-white">
         {item.role}
@@ -56,7 +67,7 @@ function ExperienceCard({ item, color = "indigo" }) {
               key={j}
               className="flex items-start gap-2 text-sm text-slate-400"
             >
-              <span className={`${bulletColor} mt-1 shrink-0`}>•</span>
+              <span className={`${style.bullet} mt-1 shrink-0`}>•</span>
               {bullet}
             </li>
           ))}
@@ -68,11 +79,7 @@ function ExperienceCard({ item, color = "indigo" }) {
           {item.skills.map((skill) => (
             <span
               key={skill}
-              className={`px-2.5 py-0.5 rounded-full text-xs font-mono border ${
-                isEmerald
-                  ? "bg-accent/[0.06] text-accent/80 border-accent/[0.08]"
-                  : "bg-secondary/[0.06] text-secondary/80 border-secondary/[0.08]"
-              }`}
+              className={`px-2.5 py-0.5 rounded-full text-xs font-mono border ${style.tag}`}
             >
               {skill}
             </span>
@@ -92,12 +99,12 @@ export default function Experience() {
   const rest = exp.slice(2);
 
   return (
-    <SectionWrapper id="experiencia" className="relative overflow-hidden">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 section-divider" />
+    <SectionWrapper id="experiencia" zone="abyssal" className="overflow-hidden">
+      {/* Ocean particles — abyssal */}
+      <OceanParticles zone="abyssal" />
 
       {/* Background mesh */}
-      <div className="absolute top-1/3 -left-32 w-[600px] h-[600px] rounded-full bg-secondary/[0.03] blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/3 -left-32 w-[600px] h-[600px] rounded-full bg-zone-abyssal/[0.04] blur-[150px] pointer-events-none" />
 
       <div className="relative z-10">
         <SectionHeading
@@ -108,14 +115,14 @@ export default function Experience() {
 
         {/* Full timeline container */}
         <div className="relative">
-          {/* Main timeline vertical line — full height */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-secondary/50 via-secondary/30 to-accent/20" />
+          {/* Main timeline vertical line — cyan → purple gradient */}
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-secondary/50 via-zone-abyssal-bio/30 to-zone-abyssal-bio/20" />
 
           {/* ── Parallel section ── */}
           <AnimatedElement>
             <div className="relative pl-12 md:pl-20 mb-12">
               {/* Dot on the main timeline */}
-              <div className="absolute left-2.5 md:left-6.5 top-1.5 w-3 h-3 rounded-full bg-secondary border-2 border-[#0a0f1e] z-10" />
+              <div className="absolute left-2.5 md:left-6.5 top-1.5 w-3 h-3 rounded-full bg-secondary border-2 border-[#030a16] z-10" />
 
               {/* Label */}
               <div className="flex items-center gap-3 mb-5">
@@ -138,18 +145,18 @@ export default function Experience() {
                       {concurrent[0].period}
                     </span>
                   </div>
-                  <ExperienceCard item={concurrent[0]} color="indigo" />
+                  <ExperienceCard item={concurrent[0]} color="cyan" />
                 </div>
 
-                {/* Right track — side project (fork branch) */}
+                {/* Right track — side project */}
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2.5 h-2.5 rounded-full bg-accent" />
-                    <span className="text-xs font-mono text-accent font-semibold">
+                    <div className="w-2.5 h-2.5 rounded-full bg-zone-abyssal-bio" />
+                    <span className="text-xs font-mono text-zone-abyssal-bio font-semibold">
                       {concurrent[1].period}
                     </span>
                   </div>
-                  <ExperienceCard item={concurrent[1]} color="emerald" />
+                  <ExperienceCard item={concurrent[1]} color="purple" />
                 </div>
               </div>
             </div>
@@ -158,17 +165,15 @@ export default function Experience() {
           {/* ── Single timeline: previous roles ── */}
           <div className="space-y-10">
             {rest.map((item, i) => {
-              const isEmerald = i % 2 !== 0;
-              const dotColor = isEmerald ? "bg-accent" : "bg-secondary";
-              const periodColor = isEmerald
-                ? "text-accent"
-                : "text-secondary";
+              const isPurple = i % 2 !== 0;
+              const dotColor = isPurple ? "bg-zone-abyssal-bio" : "bg-secondary";
+              const periodColor = isPurple ? "text-zone-abyssal-bio" : "text-secondary";
 
               return (
                 <AnimatedElement key={i} delay={i * 0.1}>
                   <div className="relative pl-12 md:pl-20">
                     <div
-                      className={`absolute left-2.5 md:left-6.5 top-1.5 w-3 h-3 rounded-full ${dotColor} border-2 border-[#0a0f1e]`}
+                      className={`absolute left-2.5 md:left-6.5 top-1.5 w-3 h-3 rounded-full ${dotColor} border-2 border-[#030a16]`}
                     />
                     <span
                       className={`text-xs font-mono ${periodColor} font-semibold`}
@@ -178,7 +183,7 @@ export default function Experience() {
                     <div className="mt-2">
                       <ExperienceCard
                         item={item}
-                        color={isEmerald ? "emerald" : "indigo"}
+                        color={isPurple ? "purple" : "cyan"}
                       />
                     </div>
                   </div>
@@ -188,6 +193,9 @@ export default function Experience() {
           </div>
         </div>
       </div>
+
+      {/* Gradient fade divider to hadal */}
+      <ZoneDivider variant="fade" toColor="#020710" />
     </SectionWrapper>
   );
 }

@@ -8,7 +8,7 @@ export default function Footer() {
   const t = ui[lang];
 
   return (
-    <footer className="relative bg-[#060a15] py-10 px-4">
+    <footer className="relative bg-[#000103] py-10 px-4">
       {/* Top divider */}
       <div className="absolute top-0 left-0 right-0 section-divider" />
 

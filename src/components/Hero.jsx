@@ -18,40 +18,10 @@ import {
 } from "lucide-react";
 import { personalInfo, badges, mainProject, tickerItems as tickerData, ui } from "@/data/portfolio";
 import { useLanguage } from "@/context/LanguageContext";
+import OceanParticles from "./ui/OceanParticles";
+import ZoneDivider from "./ui/ZoneDivider";
 
 const iconMap = { MapPin, Briefcase, Code, GraduationCap };
-
-/* Floating particles background */
-function Particles() {
-  const particles = Array.from({ length: 24 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 3 + 1,
-    left: Math.random() * 100,
-    delay: Math.random() * 15,
-    duration: Math.random() * 15 + 15,
-    color: i % 3 === 0 ? "bg-secondary" : i % 3 === 1 ? "bg-accent" : "bg-indigo-400",
-    opacity: Math.random() * 0.4 + 0.1,
-  }));
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className={`particle ${p.color}`}
-          style={{
-            width: p.size,
-            height: p.size,
-            left: `${p.left}%`,
-            bottom: "-5%",
-            opacity: p.opacity,
-            animation: `${p.id % 2 === 0 ? "float-particle" : "float-particle-reverse"} ${p.duration}s ease-in-out ${p.delay}s infinite`,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 /* Profile photo with glow border */
 function ProfilePhoto() {
@@ -62,28 +32,28 @@ function ProfilePhoto() {
       transition={{ duration: 0.6, delay: 0.05 }}
       className="relative w-20 h-20 mb-5"
     >
-      {/* Spinning gradient ring */}
+      {/* Spinning gradient ring — cyan → teal */}
       <div className="absolute -inset-[3px] rounded-full photo-glow-ring"
         style={{
-          background: "conic-gradient(from 0deg, #6366f1, #10b981, #6366f1)",
+          background: "conic-gradient(from 0deg, #06b6d4, #2dd4bf, #06b6d4)",
         }}
       />
       {/* Dark gap ring */}
-      <div className="absolute -inset-[1px] rounded-full bg-[#0a0f1e]" />
+      <div className="absolute -inset-[1px] rounded-full bg-[#0a1e38]" />
       {/* Photo */}
       <img
         src="/photo.jpg"
         alt="Bruno Galiati"
         className="relative w-20 h-20 rounded-full object-cover object-top"
       />
-      {/* Outer glow */}
-      <div className="absolute -inset-3 rounded-full bg-secondary/[0.12] blur-xl -z-10" />
+      {/* Outer glow — cyan */}
+      <div className="absolute -inset-3 rounded-full bg-zone-sunlight/[0.15] blur-xl -z-10" />
     </motion.div>
   );
 }
 
 /* Sparkline — small inline SVG chart */
-function Sparkline({ data, color = "#6366f1", width = 80, height = 24 }) {
+function Sparkline({ data, color = "#06b6d4", width = 80, height = 24 }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
@@ -190,7 +160,7 @@ function BentoGrid({ lang }) {
           </div>
           <Sparkline
             data={[20, 35, 28, 45, 52, 48, 65, 72, 68, 85, 91, 100]}
-            color="#10b981"
+            color="#2dd4bf"
             width={72}
             height={28}
           />
@@ -225,7 +195,7 @@ function BentoGrid({ lang }) {
         <div className="mt-2.5 flex items-center justify-between">
           <Sparkline
             data={[10, 15, 22, 30, 28, 35, 42, 50, 55, 60]}
-            color="#6366f1"
+            color="#06b6d4"
             width={60}
             height={18}
           />
@@ -241,8 +211,8 @@ function BentoGrid({ lang }) {
         className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-3.5"
       >
         <div className="flex items-center gap-2 mb-2.5">
-          <Database size={12} className="text-indigo-400" />
-          <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">
+          <Database size={12} className="text-zone-sunlight-light" />
+          <span className="text-[10px] font-mono text-zone-sunlight-light uppercase tracking-widest">
             {t.domain}
           </span>
         </div>
@@ -253,7 +223,7 @@ function BentoGrid({ lang }) {
                 key={item}
                 className="text-[11px] text-slate-400 font-mono flex items-center gap-1.5"
               >
-                <div className="w-1 h-1 rounded-full bg-indigo-400/50" />
+                <div className="w-1 h-1 rounded-full bg-zone-sunlight-light/50" />
                 {item}
               </div>
             )
@@ -300,24 +270,36 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-[#0a0f1e]">
-      {/* Terminal-style grid overlay */}
-      <div className="absolute inset-0 opacity-[0.07]">
+    <section id="hero" className="relative min-h-screen flex flex-col overflow-hidden zone-sunlight">
+      {/* Light rays */}
+      <div className="light-rays" style={{ left: "20%" }} />
+      <div className="light-rays" style={{ left: "65%", animationDelay: "3s" }} />
+
+      {/* Caustic overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.015]"
+        style={{
+          background: "radial-gradient(ellipse 300px 200px at 30% 20%, rgba(6,182,212,0.8), transparent), radial-gradient(ellipse 250px 180px at 70% 40%, rgba(45,212,191,0.6), transparent)",
+        }}
+      />
+
+      {/* Terminal-style grid overlay — cyan */}
+      <div className="absolute inset-0 opacity-[0.05]">
         <div
           className="w-full h-full"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(99,102,241,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.3) 1px, transparent 1px)",
+              "linear-gradient(rgba(6,182,212,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.3) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
           }}
         />
       </div>
 
-      {/* Floating particles */}
-      <Particles />
+      {/* Ocean particles — sunlight bubbles */}
+      <OceanParticles zone="sunlight" />
 
-      {/* Subtle gradient accents */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-secondary/[0.06] blur-[120px]" />
+      {/* Subtle gradient accents — cyan/teal */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-zone-sunlight/[0.06] blur-[120px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent/[0.04] blur-[100px]" />
 
       {/* Main content */}
@@ -403,7 +385,7 @@ export default function Hero() {
                   href={link.href}
                   className={`inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-heading font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-secondary ${
                     i === 0
-                      ? "bg-secondary text-white hover:bg-indigo-500 hover:shadow-lg hover:shadow-secondary/25"
+                      ? "bg-secondary text-white hover:bg-cyan-400 hover:shadow-lg hover:shadow-secondary/25"
                       : "border border-white/[0.1] text-slate-400 hover:bg-white/[0.06] hover:text-white"
                   }`}
                 >
@@ -462,6 +444,9 @@ export default function Hero() {
           <ChevronDown size={24} className="text-slate-600" />
         </motion.div>
       </motion.div>
+
+      {/* Wave divider to twilight */}
+      <ZoneDivider variant="wave1" fromColor="#0c2d4a" toColor="#0e3a5e" />
     </section>
   );
 }

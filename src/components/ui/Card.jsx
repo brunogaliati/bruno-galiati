@@ -4,8 +4,18 @@ export default function Card({
   hover = true,
   glow = "indigo",
 }) {
-  const glowClass =
-    glow === "emerald" ? "card-glow-emerald" : glow === "none" ? "" : "card-glow";
+  const glowMap = {
+    indigo: "card-glow",
+    emerald: "card-glow-emerald",
+    cyan: "card-glow",
+    teal: "card-glow-teal",
+    bio: "card-glow-bio",
+    vent: "card-glow-vent",
+    warm: "card-glow-warm",
+    none: "",
+  };
+
+  const glowClass = glowMap[glow] || "card-glow";
 
   return (
     <div
