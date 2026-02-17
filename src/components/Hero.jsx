@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -19,6 +20,67 @@ import { personalInfo, badges, mainProject, tickerItems as tickerData, ui } from
 import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = { MapPin, Briefcase, Code, GraduationCap };
+
+/* Floating particles background */
+function Particles() {
+  const particles = Array.from({ length: 24 }, (_, i) => ({
+    id: i,
+    size: Math.random() * 3 + 1,
+    left: Math.random() * 100,
+    delay: Math.random() * 15,
+    duration: Math.random() * 15 + 15,
+    color: i % 3 === 0 ? "bg-secondary" : i % 3 === 1 ? "bg-accent" : "bg-indigo-400",
+    opacity: Math.random() * 0.4 + 0.1,
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className={`particle ${p.color}`}
+          style={{
+            width: p.size,
+            height: p.size,
+            left: `${p.left}%`,
+            bottom: "-5%",
+            opacity: p.opacity,
+            animation: `${p.id % 2 === 0 ? "float-particle" : "float-particle-reverse"} ${p.duration}s ease-in-out ${p.delay}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* Profile photo with glow border */
+function ProfilePhoto() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.05 }}
+      className="relative w-20 h-20 mb-5"
+    >
+      {/* Spinning gradient ring */}
+      <div className="absolute -inset-[3px] rounded-full photo-glow-ring"
+        style={{
+          background: "conic-gradient(from 0deg, #6366f1, #10b981, #6366f1)",
+        }}
+      />
+      {/* Dark gap ring */}
+      <div className="absolute -inset-[1px] rounded-full bg-[#0a0f1e]" />
+      {/* Photo */}
+      <img
+        src="/photo.jpg"
+        alt="Bruno Galiati"
+        className="relative w-20 h-20 rounded-full object-cover object-top"
+      />
+      {/* Outer glow */}
+      <div className="absolute -inset-3 rounded-full bg-secondary/[0.12] blur-xl -z-10" />
+    </motion.div>
+  );
+}
 
 /* Sparkline — small inline SVG chart */
 function Sparkline({ data, color = "#6366f1", width = 80, height = 24 }) {
@@ -251,6 +313,9 @@ export default function Hero() {
         />
       </div>
 
+      {/* Floating particles */}
+      <Particles />
+
       {/* Subtle gradient accents */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-secondary/[0.06] blur-[120px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent/[0.04] blur-[100px]" />
@@ -260,6 +325,9 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
           {/* Left: Text content */}
           <div>
+            {/* Profile photo */}
+            <ProfilePhoto />
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
